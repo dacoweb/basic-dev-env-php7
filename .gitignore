@@ -1,0 +1,11 @@
+.idea/
+db-data/*
+!/db-data/.gitkeep
+dump-sql/*
+!/dump-sql/.gitkeep
+logs/*
+!/logs/.gitkeep
+temp/*
+!/temp/.gitkeep
+db-backups/*
+!/db-backups/.gitkeep

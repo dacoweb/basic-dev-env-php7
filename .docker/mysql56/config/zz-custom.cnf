@@ -1,0 +1,4 @@
+[mysqld]
+# Machine default pool settings:
+innodb_buffer_pool_size=8000M
+innodb_buffer_pool_instances=4

@@ -1,0 +1,55 @@
+version: "3.5"
+
+services:
+  apache:    
+    build:
+      context: ./.docker/apache-fpm/
+    environment:
+      APACHE_EXPOSED_PORT: 9000
+      APACHE_ROOT_DIR: /usr/local/apache2
+      PHP_IP: 172.200.0.33
+      PHP_APP_DIR: /var/www/html/
+    networks:
+      local-ntw:
+        ipv4_address: 172.200.0.11
+    volumes:
+      - ./src-code/:/usr/local/apache2/htdocs/
+      - ./logs/apache:/usr/local/apache2/logs:rw
+
+  mysql:    
+    build:
+      context: ./.docker/mysql56/
+    environment:
+      MYSQL_ROOT_PASSWORD: ROTPSS
+      MYSQL_USER: dbusr
+      MYSQL_PASSWORD: ABCabc123
+      MYSQL_DATABASE: dbapp
+    volumes:      
+      - ./db-data:/var/lib/mysql:rw
+      - ./dump-sql:/dump-sql:rw 
+    networks:
+      local-ntw:
+        ipv4_address: 172.200.0.22
+
+  php:    
+    build:
+      context: ./.docker/php7-fpm/
+    environment:
+      XDEBUG_RHOST: 172.200.0.33
+      XDEBUG_IDEKEY: VSCODE
+      PHP_ROOT_DIR: /usr/local/etc
+    depends_on:
+      - apache
+      - mysql
+    networks:
+      local-ntw:
+        ipv4_address: 172.200.0.33
+    volumes:
+      - ./src-code/:/var/www/html/      
+
+networks:
+    local-ntw:
+      driver: bridge
+      ipam:
+        config:
+          - subnet: 172.200.0.1/16
