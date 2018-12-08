@@ -36,6 +36,10 @@ $ docker-compose up -d
 
 The php application is expected to be located on the `src-code` directory.
 
+Open in browser with ip:
+
+http://172.200.0.11/
+
 
 ## Debugging Process (Set to work with Visual Studio Code)
 
